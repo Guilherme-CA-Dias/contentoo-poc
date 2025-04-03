@@ -13,6 +13,8 @@ export interface ITask {
   freelancerId?: string;
   freelancer?: IFreelancer;
   source: string;
+  updatedAt: Date;
+  status: string;
 }
 
 const taskSchema = new mongoose.Schema<ITask>(
@@ -40,6 +42,9 @@ const taskSchema = new mongoose.Schema<ITask>(
       type: String,
       ref: "Freelancer",
     },
+    status: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -48,6 +53,7 @@ const taskSchema = new mongoose.Schema<ITask>(
 
 taskSchema.index({ userId: 1, createdAt: -1 });
 taskSchema.index({ freelancerId: 1, createdAt: -1 });
+taskSchema.index({ userId: 1, id: 1 }, { unique: true });
 
 if (models.Task) {
   delete models.Task;

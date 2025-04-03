@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
 
 // Define a type for the freelancer object that might be returned from the API
 interface FreelancerData {
@@ -18,8 +19,31 @@ interface FreelancerData {
   email: string;
 }
 
+interface ITask {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  source: string;
+  status: string;
+  freelancerId: string | FreelancerData;
+}
+
 export function TaskList() {
   const { tasks, isLoading, isError, error } = useTasks()
+
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'completed':
+        return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100';
+      case 'in_progress':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100';
+      case 'default_task':
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+    }
+  };
 
   if (isError) {
     return (
@@ -44,16 +68,22 @@ export function TaskList() {
             <TableRow>
               <TableHead>Title</TableHead>
               <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Created</TableHead>
               <TableHead>Source</TableHead>
               <TableHead>Assigned To</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {tasks.map((task) => (
+            {tasks.map((task: ITask) => (
               <TableRow key={task.id}>
                 <TableCell className="font-medium">{task.title}</TableCell>
                 <TableCell>{task.description}</TableCell>
+                <TableCell>
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+                    {task.status ? task.status.replace(/_/g, ' ') : 'N/A'}
+                  </span>
+                </TableCell>
                 <TableCell>{format(new Date(task.createdAt), "PPP")}</TableCell>
                 <TableCell>{task.source || "N/A"}</TableCell>
                 <TableCell>

@@ -6,6 +6,7 @@ This is a template for an application showcasing integration capabilities using 
 
 - Node.js 18+ installed
 - Integration.app workspace credentials (Workspace Key and Secret)
+- MongoDB instance (local or hosted)
 
 ## Setup
 
@@ -43,7 +44,13 @@ You can find these credentials in your Integration.app workspace settings.
 
 ## Running the Application
 
-1. Start the development server:
+1. Start MongoDB (if using local instance):
+
+```bash
+mongod
+```
+
+2. Start the development server:
 
 ```bash
 npm run dev
@@ -51,17 +58,32 @@ npm run dev
 yarn dev
 ```
 
-2. Open [http://localhost:3000](http://localhost:3000) in your browser.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Features
+
+- 🔐 Simple authentication simulation
+- 🔄 Integration token generation
+- 📊 Task management with external integrations
+- 👥 User import from connected apps
+- 🔄 Real-time sync status tracking
+- 🌙 Dark mode support
 
 ## Project Structure
 
-- `/src/app` - Next.js app router pages and API routes
-  - `/users` - Example implementation of external data import
-  - `/api` - Backend API routes for users and integration token management
-- `/src/components` - Reusable React components
-- `/src/lib` - Utility functions and helpers
-- `/src/models` - Data models and types
-- `/public` - Static assets
+```
+src/
+├── app/                    # Next.js app router pages
+│   ├── api/               # API routes
+│   ├── integrations/      # Integration management UI
+│   ├── tasks/            # Task management UI
+│   └── users/            # User management UI
+├── components/            # Reusable React components
+├── hooks/                # Custom React hooks
+├── lib/                  # Utility functions
+├── models/              # MongoDB models
+└── types/               # TypeScript type definitions
+```
 
 ## Template Features
 
@@ -89,7 +111,3 @@ The template includes a complete example of importing and managing users from an
 - `npm run build` - Build the application for production
 - `npm run start` - Start the production server
 - `npm run lint` - Run ESLint to check code quality
-
-## License
-
-MIT

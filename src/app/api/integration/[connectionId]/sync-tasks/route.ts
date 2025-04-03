@@ -5,7 +5,19 @@ import { Task, ITask } from "@/models/task";
 import { SyncStatus, SyncStatusType } from "@/models/sync-status";
 
 interface IntegrationRecord {
-  fields: ITask;
+  fields: {
+    title: string;
+    description: string;
+    dueDate: string | null;
+    contentTypeDetails: string;
+    id: string;
+    status: string;
+  };
+  id: string;
+  name: string;
+  uri: string;
+  createdTime: string;
+  updatedTime: string;
 }
 
 interface SyncTasksParams extends RequestParams {
@@ -62,16 +74,18 @@ export const POST = APIHandler<SyncTasksParams>(
               .run({ cursor });
 
             const nextCursor = result.output.cursor;
-            const records = result.output.records.map(
-              (record: IntegrationRecord) => record.fields
-            ) as ITask[];
+            const records = result.output.records as IntegrationRecord[];
 
             const tasksToCreate = records.map((record) => ({
               id: record.id,
-              title: record.title,
+              title: record.fields.title,
               userId: auth.customerId,
-              description: record.description || "",
+              description: record.fields.description || "",
               source: connection.integration?.key as string,
+              status: record.fields.status,
+              dueDate: record.fields.dueDate,
+              createdAt: new Date(record.createdTime),
+              updatedAt: new Date(record.updatedTime),
             }));
 
             await Task.bulkWrite(
