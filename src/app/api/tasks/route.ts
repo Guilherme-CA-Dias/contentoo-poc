@@ -41,7 +41,7 @@ async function handler(
     }
 
     const tasks = await Task.find(query)
-      .select("id title description createdAt updatedAt freelancerId source status")
+      .select("id title description createdAt updatedAt freelancerEmail source status")
       .sort({ createdAt: -1 })
       .populate("freelancerId", "id email");
 
