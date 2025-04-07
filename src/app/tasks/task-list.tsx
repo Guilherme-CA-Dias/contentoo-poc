@@ -26,7 +26,7 @@ interface ITask {
   createdAt: string;
   source: string;
   status: string;
-  freelancerEmail?: string;
+  freelancerId: string | FreelancerData;
 }
 
 export function TaskList() {
@@ -87,8 +87,12 @@ export function TaskList() {
                 <TableCell>{format(new Date(task.createdAt), "PPP")}</TableCell>
                 <TableCell>{task.source || "N/A"}</TableCell>
                 <TableCell>
-                  {task.freelancerEmail ? (
-                    <span className="text-sm">{task.freelancerEmail}</span>
+                  {task.freelancerId ? (
+                    <span className="text-sm">
+                      {typeof task.freelancerId === 'object'
+                        ? (task.freelancerId as FreelancerData).email || 'Unknown'
+                        : task.freelancerId}
+                    </span>
                   ) : (
                     <span className="text-sm text-gray-500">Unassigned</span>
                   )}

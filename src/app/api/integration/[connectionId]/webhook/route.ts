@@ -8,7 +8,6 @@ interface TaskFields {
   contentTypeDetails: string;
   id: string;
   status: string;
-  freelancerEmail?: string;
 }
 
 interface UnifiedFields {
@@ -72,7 +71,6 @@ export async function POST(
       description: payload.data.fields.description || "",
       status: payload.data.fields.status,
       dueDate: payload.data.fields.dueDate,
-      freelancerEmail: payload.data.fields.freelancerEmail,
       createdAt: new Date(payload.data.createdTime),
       updatedAt: new Date(payload.data.updatedTime),
     };

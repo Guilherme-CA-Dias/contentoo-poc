@@ -15,7 +15,6 @@ export interface ITask {
   source: string;
   updatedAt: Date;
   status: string;
-  freelancerEmail?: string;
 }
 
 const taskSchema = new mongoose.Schema<ITask>(
@@ -44,9 +43,6 @@ const taskSchema = new mongoose.Schema<ITask>(
       ref: "Freelancer",
     },
     status: {
-      type: String,
-    },
-    freelancerEmail: {
       type: String,
     },
   },
